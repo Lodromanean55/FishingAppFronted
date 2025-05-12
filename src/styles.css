@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+/* src/styles.css */
+
+/* background very subtile, un gradient ușor spre albastru deschis */
+body {
+  /* poți înlocui culorile cu altele mai potrivite gustului tău */
+  background: linear-gradient(
+    to bottom,
+    #eef2f5 0%,
+    #d4e2ec 100%
+  );
+  /* sau doar o culoare plată:
+  background-color: #f4f7fa;
+  */
+  min-height: 100vh;     /* ocupă tot ecranul chiar dacă conținutul e puțin */
+  margin: 0;             /* elimină spațiul implicit */
+}
+:root {
+  --primary: #1e88e5;
+  --primary-dark: #1565c0;
+  --secondary: #eceff1;
+  --text-dark: #263238;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-dark);
+  background-color: var(--secondary);
+}
+
