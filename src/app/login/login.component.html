@@ -1,0 +1,91 @@
+<div class="container mt-5"><!-- grupează conținutul și adaugă spațiu sus -->
+  <div class="row justify-content-center"><!-- centru pe orizontală -->
+    <div class="col-md-6"><!-- coloană de lățime medie -->
+      <h2 class="text-center mb-4">Login FishingApp</h2><!-- titlu simplu -->
+
+      <div class="card"><!-- card Bootstrap de bază -->
+        <div class="card-body"><!-- corpul cardului -->
+
+          <!-- avatar centrat -->
+          <div class="text-center mb-3">
+            <img
+              src="assets/images/fishinglogin.png"
+              alt="Logo FishingApp"
+              class="avatar-img rounded-circle"
+            >
+          </div>
+
+
+
+          <!-- formular simplu -->
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input
+                formControlName="username"
+                type="text"
+                id="username"
+                class="form-control"
+                placeholder="Username"
+              >
+              <!-- mesaj de eroare pentru username -->
+              <div
+                *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid"
+                class="text-danger small mt-1"
+              >
+                <div *ngIf="loginForm.get('username')?.errors?.['required']">
+                  Username este obligatoriu.
+                </div>
+                <div *ngIf="loginForm.get('username')?.errors?.['minlength']">
+                  Username trebuie să aibă minim 3 caractere.
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                formControlName="password"
+                type="password"
+                id="password"
+                class="form-control"
+                placeholder="Password"
+              >
+              <!-- mesaj de eroare pentru password -->
+              <div
+                *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+                class="text-danger small mt-1"
+              >
+                <div *ngIf="loginForm.get('password')?.errors?.['required']">
+                  Parola este obligatorie.
+                </div>
+              </div>
+            </div>
+
+            <!-- butonul disabilitat cât timp formularul e invalid -->
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="loginForm.invalid"
+            >
+              Login
+            </button>
+          </form>
+
+
+
+
+          <p class="text-center mt-3">
+            Not registered?
+            <a (click)="goToRegister()" style="cursor: pointer;">
+              Create account
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<app-header></app-header>
+
+<!-- Hero Section -->
+<section class="bg-white py-5 shadow-sm">
+  <div class="container text-center">
+    <h1 class="display-5 fw-bold" style="color: var(--primary);">
+      Găsește-ți următorul loc de pescuit
+    </h1>
+    <p class="lead text-muted mb-4">
+      Rezervă rapid și ușor cele mai frumoase locații private de pescuit din România.
+    </p>
+    <button
+      class="btn btn-primary btn-lg"
+      [routerLink]="authService.isLoggedIn() ? '/locations/new' : '/login'"
+    >
+      Încarcă un spot
+    </button>
+  </div>
+</section>
+
+<!-- Locations Grid -->
+<section class="container py-5">
+  <div class="row g-4">
+    <div
+      class="col-sm-6 col-lg-4"
+      *ngFor="let loc of locations"
+    >
+      <div
+        class="card h-100 shadow-sm"
+        (click)="goToDetail(loc.id)"
+        style="cursor: pointer;"
+      >
+        <img
+          src="https://via.placeholder.com/350x200"
+          class="card-img-top"
+          alt="{{ loc.name }}"
+        />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ loc.name }}</h5>
+          <p class="card-text text-muted flex-grow-1">
+            {{ loc.description || 'Fără descriere...' }}
+          </p>
+          <div class="mt-3">
+            <span class="badge bg-primary me-1">
+              {{ loc.pricePerPerson }} lei/pers
+            </span>
+            <span class="badge bg-secondary">
+              Max {{ loc.maxPersons }}
+            </span>
+            <span
+              class="badge bg-info text-dark"
+              *ngIf="loc.hasBoatFishing"
+            >
+              Boat fishing
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>

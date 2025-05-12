@@ -1,0 +1,52 @@
+<app-header></app-header>
+
+<div class="container py-5" *ngIf="location">
+  <div class="row g-5">
+    <!-- Left: Galerie & detalii -->
+    <div class="col-lg-8">
+      <!-- Galerie simplă -->
+      <div id="carouselDetail" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div class="carousel-inner rounded shadow-sm">
+          <div class="carousel-item active">
+            <img
+              src="https://via.placeholder.com/800x400"
+              class="d-block w-100"
+              alt="{{ location.name }}"
+            />
+          </div>
+          <!-- Adaugă alte imagini aici -->
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetail" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselDetail" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+
+      <h2 class="fw-bold">{{ location.name }}</h2>
+      <p class="text-muted">{{ location.address }}</p>
+      <p>{{ location.description }}</p>
+
+      <h5 class="mt-4">Regulament</h5>
+      <ul>
+        <li *ngFor="let r of (location.rules?.split('.') || [])">
+          {{ r.trim() }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right: Sumar & booking -->
+    <div class="col-lg-4">
+      <div class="card p-4 shadow-sm">
+        <h5 class="card-title">Detalii</h5>
+        <p><strong>Preț:</strong> {{ location.pricePerPerson }} lei/pers</p>
+        <p><strong>Max persoane:</strong> {{ location.maxPersons }}</p>
+        <p *ngIf="location.hasBoatFishing"><strong>Boat fishing</strong></p>
+        <button class="btn btn-primary w-100 mt-3">Rezervă acum</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

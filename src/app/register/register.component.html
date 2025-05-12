@@ -1,0 +1,134 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center mb-4">Register FishingApp</h2>
+
+      <div class="card">
+        <div class="card-body">
+
+          <!-- Afișează eroarea generală de server dacă există -->
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+
+          <!-- avatar centrat (re-adăugat) -->
+          <div class="text-center mb-4">
+            <img
+              src="assets/images/fishinglogin.png"
+              alt="Logo FishingApp"
+              class="avatar-img rounded-circle"
+              width="140"
+              height="140"
+            >
+          </div>
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <!-- Username -->
+            <div class="mb-3">
+              <label for="reg-username" class="form-label">Username</label>
+              <input
+                formControlName="username"
+                type="text"
+                id="reg-username"
+                class="form-control"
+                placeholder="Enter username"
+              >
+              <div
+                *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.invalid"
+                class="text-danger small mt-1"
+              >
+                <div *ngIf="registerForm.get('username')?.errors?.['required']">
+                  Username este obligatoriu.
+                </div>
+                <div *ngIf="registerForm.get('username')?.errors?.['minlength']">
+                  Username trebuie să aibă cel puțin 3 caractere.
+                </div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="reg-email" class="form-label">Email</label>
+              <input
+                formControlName="email"
+                type="email"
+                id="reg-email"
+                class="form-control"
+                placeholder="Enter email"
+              >
+              <div
+                *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+                class="text-danger small mt-1"
+              >
+                <div *ngIf="registerForm.get('email')?.errors?.['required']">
+                  Email este obligatoriu.
+                </div>
+                <div *ngIf="registerForm.get('email')?.errors?.['email']">
+                  Te rugăm să introduci un email valid.
+                </div>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="reg-password" class="form-label">Password</label>
+              <input
+                formControlName="password"
+                type="password"
+                id="reg-password"
+                class="form-control"
+                placeholder="Enter password"
+              >
+              <div
+                *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+                class="text-danger small mt-1"
+              >
+                <div *ngIf="registerForm.get('password')?.errors?.['required']">
+                  Parola este obligatorie.
+                </div>
+                <div *ngIf="registerForm.get('password')?.errors?.['minlength']">
+                  Parola trebuie să aibă minim 6 caractere.
+                </div>
+              </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+              <label for="reg-confirm" class="form-label">Confirm Password</label>
+              <input
+                formControlName="confirm"
+                type="password"
+                id="reg-confirm"
+                class="form-control"
+                placeholder="Confirm password"
+              >
+              <div
+                *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirm')?.touched"
+                class="text-danger small mt-1"
+              >
+                Parolele nu coincid.
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="registerForm.invalid || isSubmitting"
+            >
+              {{ isSubmitting ? 'Înregistrare…' : 'Register' }}
+            </button>
+          </form>
+
+          <p class="text-center mt-3">
+            Already have an account?
+            <a (click)="goToLogin()" style="cursor:pointer">
+              Login here
+            </a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
