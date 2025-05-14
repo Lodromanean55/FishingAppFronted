@@ -1,104 +1,110 @@
 <app-header></app-header>
 
-<div class="container my-5" *ngIf="location; else loading">
-  <!-- Carousel de imagini -->
-  <div *ngIf="location.images?.length" id="locationCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      <button *ngFor="let img of location.images || []; let i = index"
+<ng-container *ngIf="location; else loading">
+  <div class="container my-5">
+
+    <!-- Carousel de imagini -->
+    <div *ngIf="location.imagePaths?.length"
+         id="locationCarousel"
+         class="carousel slide mb-4"
+         data-bs-ride="carousel">
+
+      <div class="carousel-indicators">
+        <button *ngFor="let img of location.imagePaths; let i = index"
+                type="button"
+                data-bs-target="#locationCarousel"
+                [attr.data-bs-slide-to]="i"
+                [class.active]="i === 0"
+                aria-current="true">
+        </button>
+      </div>
+
+      <div class="carousel-inner rounded shadow-sm">
+        <div *ngFor="let img of location.imagePaths; let i = index"
+             class="carousel-item"
+             [class.active]="i === 0">
+          <img [src]="getImageUrl(img)"
+               class="d-block w-100 carousel-img"
+               [alt]="location.name">
+        </div>
+      </div>
+
+      <button class="carousel-control-prev"
               type="button"
               data-bs-target="#locationCarousel"
-              [attr.data-bs-slide-to]="i"
-              [class.active]="i === 0"
-              aria-current="true">
+              data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next"
+              type="button"
+              data-bs-target="#locationCarousel"
+              data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
       </button>
     </div>
-    <div class="carousel-inner rounded shadow-sm">
-      <div *ngFor="let img of location.images || []; let i = index"
-           class="carousel-item"
-           [class.active]="i === 0">
-        <img [src]="img"
-             class="d-block w-100"
-             [alt]="location.name">
-      </div>
-    </div>
-    <button class="carousel-control-prev"
-            type="button"
-            data-bs-target="#locationCarousel"
-            data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next"
-            type="button"
-            data-bs-target="#locationCarousel"
-            data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </button>
-  </div>
 
-  <div class="row gx-4">
-    <div class="col-lg-8">
-      <h1 class="mb-1">{{ location.name }}</h1>
-      <p class="text-muted">{{ location.address }}</p>
-      <p *ngIf="location.description">{{ location.description }}</p>
+    <!-- Detalii -->
+    <div class="row gx-4">
+      <div class="col-lg-8">
+        <h1 class="mb-1">{{ location.name }}</h1>
+        <p class="text-muted">{{ location.address }}</p>
+        <p *ngIf="location.description">{{ location.description }}</p>
 
-      <!-- Localizare -->
-      <h5 class="mt-4">Localizare</h5>
-      <ul class="list-unstyled">
-        <li *ngFor="let loc of location.localizations || []">
-          <i class="bi bi-geo-alt-fill text-primary me-1"></i>
-          {{ loc.city }} – {{ loc.distanceKm }} km ({{ loc.duration }})
-        </li>
-      </ul>
+        <h5 class="mt-4">Localizare</h5>
+        <ul class="list-unstyled">
+          <li *ngFor="let l of location.localizations">
+            <i class="bi bi-geo-alt-fill text-primary me-1"></i>
+            {{ l.city }} – {{ l.distanceKm }} km ({{ l.duration }})
+          </li>
+        </ul>
 
-      <!-- Facilități -->
-      <h5 class="mt-4">Facilități</h5>
-      <div class="mb-3">
-        <span *ngFor="let f of location.facilities || []"
-              class="badge bg-success me-2 mb-1">
-          {{ f }}
-        </span>
+        <h5 class="mt-4">Facilități</h5>
+        <div class="mb-3">
+          <span *ngFor="let f of location.facilities"
+                class="badge bg-success me-2 mb-1">
+            {{ f }}
+          </span>
+        </div>
+
+        <h5 class="mt-4">Specii de pești</h5>
+        <div class="mb-3">
+          <span *ngFor="let s of location.species"
+                class="badge bg-info me-2 mb-1">
+            {{ s }}
+          </span>
+        </div>
+
+        <h5 class="mt-4">Regulament</h5>
+        <ul class="ps-3">
+          <li *ngFor="let line of rulesLines">
+            {{ line }}
+          </li>
+        </ul>
       </div>
 
-      <!-- Specii de pești -->
-      <h5 class="mt-4">Specii de pești</h5>
-      <div class="mb-3">
-        <span *ngFor="let s of location.species || []"
-              class="badge bg-info me-2 mb-1">
-          {{ s }}
-        </span>
-      </div>
-
-      <!-- Regulament -->
-      <h5 class="mt-4">Regulament</h5>
-      <ul class="ps-3">
-        <li *ngFor="let line of rulesLines">
-          {{ line }}
-        </li>
-      </ul>
-    </div>
-
-    <div class="col-lg-4">
-      <div class="card shadow-sm mb-4">
-        <div class="card-body">
-          <h5 class="card-title">Detalii rezervație</h5>
-          <p><strong>Preț:</strong> {{ location.pricePerPerson }} lei/pers</p>
-          <p><strong>Max persoane:</strong> {{ location.maxPersons }}</p>
-          <p *ngIf="location.numberOfStands != null">
-            <strong>Standuri:</strong> {{ location.numberOfStands }}
-          </p>
-          <p>
-            <strong>Închirieri echipamente:</strong>
-            <span [class.text-success]="location.equipmentRental"
-                  [class.text-danger]="!location.equipmentRental">
-              {{ location.equipmentRental ? 'Disponibil' : 'Indisponibil' }}
-            </span>
-          </p>
-          <button class="btn btn-primary w-100">Rezervă acum</button>
+      <div class="col-lg-4">
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Detalii rezervație</h5>
+            <p><strong>Preț:</strong> {{ location.pricePerPerson }} lei/pers</p>
+            <p><strong>Max persoane:</strong> {{ location.maxPersons }}</p>
+            <p *ngIf="location.numberOfStands">
+              <strong>Standuri:</strong> {{ location.numberOfStands }}
+            </p>
+            <p>
+              <strong>Închirieri echipamente:</strong>
+              <span [class.text-success]="location.equipmentRental"
+                    [class.text-danger]="!location.equipmentRental">
+                {{ location.equipmentRental ? 'Disponibil' : 'Indisponibil' }}
+              </span>
+            </p>
+            <button class="btn btn-primary w-100">Rezervă acum</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</ng-container>
 
 <ng-template #loading>
   <div class="text-center my-5">

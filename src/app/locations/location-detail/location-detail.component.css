@@ -32,3 +32,14 @@ ul.ps-3 li {
   font-size: 1.2rem;
   margin-bottom: 1rem;
 }
+/* Carousel-ul are o înălțime fixă */
+.carousel-inner {
+  height: 400px; /* ajustează cum dorești */
+}
+
+/* Imaginea umple tot spațiul disponibil și taie marginile nedorite */
+.carousel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

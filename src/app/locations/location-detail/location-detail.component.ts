@@ -5,6 +5,7 @@ import { FishingLocationResponseDTO } from '../../models/fishing-location-respon
 import { LocationsService }        from '../../services/locations.service';
 import { HeaderComponent }         from '../../shared/header/header.component';
 import { FooterComponent }         from '../../shared/footer/footer.component';
+import { environment }             from '../../../environments/environment';
 
 @Component({
   selector: 'app-location-detail',
@@ -19,6 +20,9 @@ import { FooterComponent }         from '../../shared/footer/footer.component';
 })
 export class LocationDetailComponent implements OnInit {
   location?: FishingLocationResponseDTO;
+
+  // Vrem doar baza fără `/api`
+  backendUrl = environment.apiUrl.replace(/\/api$/, '');
 
   constructor(
     private route: ActivatedRoute,
@@ -35,10 +39,16 @@ export class LocationDetailComponent implements OnInit {
     }
   }
 
-  /** Desparte șirul de reguli pe linii */
   get rulesLines(): string[] {
     return this.location?.rules
       ? this.location.rules.split('\n').map(l => l.trim()).filter(l => !!l)
       : [];
+  }
+
+  getImageUrl(path: string): string {
+    // dacă path e deja complet (ex: http...) îl folosim direct
+    return path.startsWith('http')
+      ? path
+      : `${this.backendUrl}/${path}`;
   }
 }

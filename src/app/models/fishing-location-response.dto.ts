@@ -1,5 +1,3 @@
-// src/app/models/fishing-location-response.dto.ts
-
 import { LocalizationDTO } from './localization.dto';
 
 export interface FishingLocationResponseDTO {
@@ -8,8 +6,8 @@ export interface FishingLocationResponseDTO {
   address: string;
   description?: string;
 
-  /** URL-urile imaginilor încărcate de utilizator */
-  images?: string[];
+  /** căile către fișiere */
+  imagePaths?: string[];
 
   hasBoatFishing: boolean;
   maxPersons: number;
