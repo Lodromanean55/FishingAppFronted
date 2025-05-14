@@ -1,18 +1,16 @@
-// src/app/locations/location-detail/location-detail.component.ts
-import { Component, OnInit } from '@angular/core';
-import { CommonModule }        from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { LocationsService }    from '../../services/locations.service';
+import { Component, OnInit }       from '@angular/core';
+import { CommonModule }            from '@angular/common';
+import { ActivatedRoute }          from '@angular/router';
 import { FishingLocationResponseDTO } from '../../models/fishing-location-response.dto';
-import { HeaderComponent }     from '../../shared/header/header.component';
-import { FooterComponent }     from '../../shared/footer/footer.component';
+import { LocationsService }        from '../../services/locations.service';
+import { HeaderComponent }         from '../../shared/header/header.component';
+import { FooterComponent }         from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-location-detail',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
     HeaderComponent,
     FooterComponent
   ],
@@ -25,20 +23,22 @@ export class LocationDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private locationsService: LocationsService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.locationsService.getById(id).subscribe({
-        next: (loc: FishingLocationResponseDTO) => {
-          this.location = loc;
-        },
-        error: (err: any) => {
-          console.error('Eroare la getById:', err);
-        }
+        next: loc => this.location = loc,
+        error: err => console.error('Eroare la detaliu location:', err)
       });
     }
+  }
+
+  /** Desparte șirul de reguli pe linii */
+  get rulesLines(): string[] {
+    return this.location?.rules
+      ? this.location.rules.split('\n').map(l => l.trim()).filter(l => !!l)
+      : [];
   }
 }

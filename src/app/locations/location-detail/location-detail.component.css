@@ -1,4 +1,34 @@
-#carouselDetail img {
-  height: 400px;
+/* src/app/locations/location-detail/location-detail.component.css */
+
+:host {
+  display: block;
+  background-color: #f5f9fc;
+}
+
+.carousel-item img {
+  max-height: 400px;
   object-fit: cover;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #0d6efd;
+}
+
+h5 {
+  border-bottom: 2px solid #dee2e6;
+  padding-bottom: .25rem;
+}
+
+.badge {
+  font-size: .9rem;
+}
+
+ul.ps-3 li {
+  margin-bottom: .5rem;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
 }
