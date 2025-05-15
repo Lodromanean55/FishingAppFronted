@@ -1,11 +1,15 @@
-import { Component, OnInit }       from '@angular/core';
-import { CommonModule }            from '@angular/common';
-import { ActivatedRoute }          from '@angular/router';
+import {
+  Component,
+  OnInit,
+  HostListener
+} from '@angular/core';
+import { CommonModule }      from '@angular/common';
+import { ActivatedRoute }    from '@angular/router';
+import { LocationsService }  from '../../services/locations.service';
 import { FishingLocationResponseDTO } from '../../models/fishing-location-response.dto';
-import { LocationsService }        from '../../services/locations.service';
-import { HeaderComponent }         from '../../shared/header/header.component';
-import { FooterComponent }         from '../../shared/footer/footer.component';
-import { environment }             from '../../../environments/environment';
+import { HeaderComponent }   from '../../shared/header/header.component';
+import { FooterComponent }   from '../../shared/footer/footer.component';
+import { environment }       from '../../../environments/environment';
 
 @Component({
   selector: 'app-location-detail',
@@ -20,9 +24,11 @@ import { environment }             from '../../../environments/environment';
 })
 export class LocationDetailComponent implements OnInit {
   location?: FishingLocationResponseDTO;
-
-  // Vrem doar baza fără `/api`
   backendUrl = environment.apiUrl.replace(/\/api$/, '');
+
+  lightboxOpen = false;
+  currentIndex = 0;
+  lightboxUrl = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -41,14 +47,49 @@ export class LocationDetailComponent implements OnInit {
 
   get rulesLines(): string[] {
     return this.location?.rules
-      ? this.location.rules.split('\n').map(l => l.trim()).filter(l => !!l)
+      ? this.location.rules.split('\n')
+        .map(l => l.trim())
+        .filter(l => !!l)
       : [];
   }
 
   getImageUrl(path: string): string {
-    // dacă path e deja complet (ex: http...) îl folosim direct
-    return path.startsWith('http')
-      ? path
-      : `${this.backendUrl}/${path}`;
+    return `${this.backendUrl}/${path}`;
+  }
+
+  openLightbox(index: number): void {
+    const paths = this.location?.imagePaths;
+    if (!paths?.length) return;
+    this.currentIndex = index;
+    this.lightboxUrl = this.getImageUrl(paths[index]);
+    this.lightboxOpen = true;
+  }
+
+  closeLightbox(): void {
+    this.lightboxOpen = false;
+  }
+
+  prevImage(event: MouseEvent): void {
+    event.stopPropagation();
+    const paths = this.location?.imagePaths;
+    if (!paths?.length) return;
+    this.currentIndex = (this.currentIndex - 1 + paths.length) % paths.length;
+    this.lightboxUrl = this.getImageUrl(paths[this.currentIndex]);
+  }
+
+  nextImage(event: MouseEvent): void {
+    event.stopPropagation();
+    const paths = this.location?.imagePaths;
+    if (!paths?.length) return;
+    this.currentIndex = (this.currentIndex + 1) % paths.length;
+    this.lightboxUrl = this.getImageUrl(paths[this.currentIndex]);
+  }
+
+  // închide lightbox și la apăsarea tastei Escape
+  @HostListener('document:keydown.escape')
+  onEsc(): void {
+    if (this.lightboxOpen) {
+      this.closeLightbox();
+    }
   }
 }

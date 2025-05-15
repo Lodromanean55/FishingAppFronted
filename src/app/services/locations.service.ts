@@ -4,12 +4,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient }  from '@angular/common/http';
 import { Observable }  from 'rxjs';
 import { environment } from '../../environments/environment';
-import {
-  FishingLocationResponseDTO
-} from '../models/fishing-location-response.dto';
-import {
-  FishingLocationRequestDTO
-} from '../models/fishing-location-request.dto';
+import { FishingLocationResponseDTO } from '../models/fishing-location-response.dto';
+import { FishingLocationRequestDTO }  from '../models/fishing-location-request.dto';
 
 @Injectable({ providedIn: 'root' })
 export class LocationsService {
@@ -35,5 +31,19 @@ export class LocationsService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  /**
+   * Încarcă una sau mai multe fișiere (poze) pentru o locație.
+   * @param id - id-ul locației
+   * @param files - lista de File (din <input type="file">)
+   */
+  uploadImages(id: number, files: File[]): Observable<FishingLocationResponseDTO> {
+    const formData = new FormData();
+    files.forEach(f => formData.append('files', f));
+    return this.http.post<FishingLocationResponseDTO>(
+      `${this.baseUrl}/${id}/images`,
+      formData
+    );
   }
 }

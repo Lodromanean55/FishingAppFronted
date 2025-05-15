@@ -1,12 +1,35 @@
-section.bg-white {
-  border-bottom: 1px solid #e0e0e0;
+/* src/app/home/home.component.css */
+
+:host {
+  display: block;
+  background-color: #f0f4fd; /* un albastru foarte deschis */
 }
 
-.card-title {
-  font-weight: 600;
+.location-card {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-
-.card:hover {
+.location-card:hover {
   transform: translateY(-4px);
-  transition: transform 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.location-img {
+  height: 180px;
+  object-fit: cover;
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+}
+
+.card-address {
+  font-size: 0.9rem;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.badge {
+  font-size: 0.75rem;
 }

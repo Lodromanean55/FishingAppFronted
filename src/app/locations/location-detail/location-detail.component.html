@@ -3,7 +3,7 @@
 <ng-container *ngIf="location; else loading">
   <div class="container my-5">
 
-    <!-- Carousel de imagini -->
+    <!-- CAROUSEL -->
     <div *ngIf="location.imagePaths?.length"
          id="locationCarousel"
          class="carousel slide mb-4"
@@ -25,7 +25,8 @@
              [class.active]="i === 0">
           <img [src]="getImageUrl(img)"
                class="d-block w-100 carousel-img"
-               [alt]="location.name">
+               [alt]="location.name"
+               (click)="openLightbox(i)">
         </div>
       </div>
 
@@ -43,7 +44,7 @@
       </button>
     </div>
 
-    <!-- Detalii -->
+    <!-- DETALII LATERALE -->
     <div class="row gx-4">
       <div class="col-lg-8">
         <h1 class="mb-1">{{ location.name }}</h1>
@@ -92,7 +93,7 @@
               <strong>Standuri:</strong> {{ location.numberOfStands }}
             </p>
             <p>
-              <strong>Închirieri echipamente:</strong>
+              <strong>Închirieri echipament:</strong>
               <span [class.text-success]="location.equipmentRental"
                     [class.text-danger]="!location.equipmentRental">
                 {{ location.equipmentRental ? 'Disponibil' : 'Indisponibil' }}
@@ -114,3 +115,21 @@
 </ng-template>
 
 <app-footer></app-footer>
+
+<!-- LIGHTBOX OVERLAY CU NAVIGAȚIE ȘI ÎNCHIDERE -->
+<div class="lightbox-overlay" *ngIf="lightboxOpen" (click)="closeLightbox()">
+  <!-- conținutul lightbox-ului nu aruncă click-ul înapoi -->
+  <div class="lightbox-content" (click)="$event.stopPropagation()">
+    <!-- Close -->
+    <button class="close-btn" (click)="closeLightbox()">×</button>
+
+    <!-- Prev -->
+    <button class="lightbox-nav prev" (click)="prevImage($event)">‹</button>
+
+    <!-- Imagine -->
+    <img class="lightbox-img" [src]="lightboxUrl" alt="Preview imagine" />
+
+    <!-- Next -->
+    <button class="lightbox-nav next" (click)="nextImage($event)">›</button>
+  </div>
+</div>

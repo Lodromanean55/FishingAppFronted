@@ -1,53 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
-import { CommonModule } from '@angular/common';      // ← import necesar pentru *ngIf și *ngFor
-import { AuthService } from '../services/auth.service';
-import { LocationsService } from '../services/locations.service';
-import { FishingLocationResponseDTO } from '../models/fishing-location-response.dto';
-import {HeaderComponent} from '../shared/header/header.component';
-import {FooterComponent} from '../shared/footer/footer.component';
+// src/app/home/home.component.ts
+import { Component, OnInit }            from '@angular/core';
+import { Router }                       from '@angular/router';
+import { CommonModule }                 from '@angular/common';
+import { LocationsService }             from '../services/locations.service';
+import { FishingLocationResponseDTO }   from '../models/fishing-location-response.dto';
+import { HeaderComponent }              from '../shared/header/header.component';
+import { FooterComponent }              from '../shared/footer/footer.component';
+import { environment }                  from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule,                               // ← aici păstrăm CommonModule pentru directivele Angular
-    HeaderComponent,   // ← adăugat
+    CommonModule,
+    HeaderComponent,
     FooterComponent,
-    RouterLink,
-    // ← adăugat
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
   locations: FishingLocationResponseDTO[] = [];
+  backendUrl = environment.apiUrl.replace(/\/api$/, '');
 
   constructor(
     private router: Router,
-    public  authService: AuthService,
     private locationsService: LocationsService
   ) {}
 
   ngOnInit(): void {
     this.locationsService.getAll().subscribe({
-      next: locs => {
-        console.log('LOCATIONS from API:', locs);
-        this.locations = locs;
-      },
+      next: locs => this.locations = locs,
       error: err => console.error('Eroare la getAll():', err)
     });
   }
 
-  goToLogin()    { this.router.navigate(['/login']); }
-  goToRegister() { this.router.navigate(['/register']); }
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-
-  /** + adăugat acum: */
   goToDetail(id: number): void {
     this.router.navigate(['/locations', id]);
+  }
+
+  /** Dacă vrei să repeți logica în home */
+  getImageUrl(path: string): string {
+    return `${this.backendUrl}/${path}`;
   }
 }
