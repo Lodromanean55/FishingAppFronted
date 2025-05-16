@@ -1,0 +1,144 @@
+<app-header></app-header>
+
+<div class="container my-5">
+  <h2>{{ isEdit ? 'Editează locație' : 'Adaugă locație nouă' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <!-- Nume -->
+    <div class="mb-3">
+      <label class="form-label">Nume locație*</label>
+      <input formControlName="name" class="form-control" />
+    </div>
+
+    <!-- Adresă -->
+    <div class="mb-3">
+      <label class="form-label">Adresă*</label>
+      <input formControlName="address" class="form-control" />
+    </div>
+
+    <!-- Descriere -->
+    <div class="mb-3">
+      <label class="form-label">Descriere</label>
+      <textarea formControlName="description" class="form-control" rows="3"></textarea>
+    </div>
+
+    <!-- Checkbox și numere -->
+    <div class="form-check mb-3">
+      <input formControlName="hasBoatFishing" type="checkbox" class="form-check-input" id="boatChk" />
+      <label for="boatChk" class="form-check-label">Permite pescuit cu barca</label>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Max persoane*</label>
+      <input type="number" formControlName="maxPersons" class="form-control" min="1" />
+    </div>
+
+    <!-- Reguli și preț -->
+    <div class="mb-3">
+      <label class="form-label">Reguli generale</label>
+      <textarea formControlName="rules" class="form-control" rows="2"></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Preț per persoană (lei)*</label>
+      <input type="number" formControlName="pricePerPerson" class="form-control" min="0.01" step="0.01" />
+    </div>
+
+    <hr />
+
+    <!-- Localizări -->
+    <h5>Localizări</h5>
+    <div formArrayName="localizations">
+      <div *ngFor="let loc of localizations.controls; let i = index"
+           [formGroupName]="i"
+           class="row g-2 align-items-end mb-2">
+        <div class="col">
+          <input formControlName="city" class="form-control" placeholder="Oraș" />
+        </div>
+        <div class="col">
+          <input type="number" formControlName="distanceKm" class="form-control" placeholder="Distanță km" />
+        </div>
+        <div class="col">
+          <input formControlName="duration" class="form-control" placeholder="Durată" />
+        </div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-outline-danger" (click)="removeLocalization(i)">✕</button>
+        </div>
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary mb-3" (click)="addLocalization()">
+        + Adaugă localizare
+      </button>
+    </div>
+
+    <hr />
+
+    <!-- Facilități -->
+    <h5>Facilități</h5>
+    <div formArrayName="facilities">
+      <div *ngFor="let fCtrl of facilities.controls; let i = index" class="input-group mb-2">
+        <input [formControlName]="i" class="form-control" placeholder="Facilitate" />
+        <button type="button" class="btn btn-outline-danger" (click)="removeFacility(i)">✕</button>
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary mb-3" (click)="addFacility()">
+        + Adaugă facilitate
+      </button>
+    </div>
+
+    <hr />
+
+    <!-- Specii -->
+    <h5>Specii de pești</h5>
+    <div formArrayName="species">
+      <div *ngFor="let sCtrl of species.controls; let i = index" class="input-group mb-2">
+        <input [formControlName]="i" class="form-control" placeholder="Specie" />
+        <button type="button" class="btn btn-outline-danger" (click)="removeSpecies(i)">✕</button>
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary mb-3" (click)="addSpecies()">
+        + Adaugă specie
+      </button>
+    </div>
+
+    <hr />
+
+    <!-- Standuri & echipament -->
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label">Număr standuri</label>
+        <input type="number" formControlName="numberOfStands" class="form-control" min="0" />
+      </div>
+      <div class="col-auto form-check align-self-end">
+        <input formControlName="equipmentRental" type="checkbox" class="form-check-input" id="equipChk" />
+        <label for="equipChk" class="form-check-label">Închirieri echipament</label>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- Încărcare imagini -->
+    <div class="mb-4">
+      <label class="form-label">Poze locație</label>
+      <input type="file"
+             (change)="onFileChange($event)"
+             multiple
+             class="form-control"
+             accept="image/*" />
+      <small class="form-text text-muted">Poți selecta mai multe imagini simultan.</small>
+
+      <!-- Previzualizare fișiere selectate -->
+      <div class="mt-3 d-flex flex-wrap gap-2">
+        <div *ngFor="let url of previewUrls; let i = index" class="position-relative">
+          <img [src]="url" class="img-thumbnail" style="height: 100px; object-fit: cover;" />
+          <button type="button"
+                  class="btn btn-sm btn-danger position-absolute top-0 end-0"
+                  (click)="removeFile(i)">
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success w-100">
+      {{ isEdit ? 'Salvează modificările' : 'Creează locație' }}
+    </button>
+  </form>
+</div>
+
+<app-footer></app-footer>

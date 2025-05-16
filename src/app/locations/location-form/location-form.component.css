@@ -1,0 +1,17 @@
+/* src/app/locations/location-form/location-form.component.css */
+
+/* Oferim un pic de spațiu la margini */
+.container {
+  max-width: 800px;
+}
+
+/* Ajustăm butoanele de ștergere */
+.btn-outline-danger {
+  padding: 0.3rem 0.6rem;
+  line-height: 1;
+}
+
+/* Spațiu între secțiuni */
+hr {
+  margin: 2rem 0;
+}
