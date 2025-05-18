@@ -3,13 +3,14 @@ import {
   OnInit,
   HostListener
 } from '@angular/core';
-import { CommonModule }      from '@angular/common';
-import { ActivatedRoute }    from '@angular/router';
-import { LocationsService }  from '../../services/locations.service';
+import { CommonModule }               from '@angular/common';
+import { ActivatedRoute }             from '@angular/router';
+import { LocationsService }           from '../../services/locations.service';
 import { FishingLocationResponseDTO } from '../../models/fishing-location-response.dto';
-import { HeaderComponent }   from '../../shared/header/header.component';
-import { FooterComponent }   from '../../shared/footer/footer.component';
-import { environment }       from '../../../environments/environment';
+import { HeaderComponent }            from '../../shared/header/header.component';
+import { FooterComponent }            from '../../shared/footer/footer.component';
+import { environment }                from '../../../environments/environment';
+import { ReviewListComponent }        from '../../reviews/review-list/review-list.component';
 
 @Component({
   selector: 'app-location-detail',
@@ -17,7 +18,8 @@ import { environment }       from '../../../environments/environment';
   imports: [
     CommonModule,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ReviewListComponent
   ],
   templateUrl: './location-detail.component.html',
   styleUrls: ['./location-detail.component.css']
@@ -47,7 +49,8 @@ export class LocationDetailComponent implements OnInit {
 
   get rulesLines(): string[] {
     return this.location?.rules
-      ? this.location.rules.split('\n')
+      ? this.location.rules
+        .split('\n')
         .map(l => l.trim())
         .filter(l => !!l)
       : [];
@@ -85,11 +88,8 @@ export class LocationDetailComponent implements OnInit {
     this.lightboxUrl = this.getImageUrl(paths[this.currentIndex]);
   }
 
-  // închide lightbox și la apăsarea tastei Escape
   @HostListener('document:keydown.escape')
   onEsc(): void {
-    if (this.lightboxOpen) {
-      this.closeLightbox();
-    }
+    if (this.lightboxOpen) this.closeLightbox();
   }
 }

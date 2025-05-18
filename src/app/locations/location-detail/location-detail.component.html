@@ -2,50 +2,47 @@
 
 <ng-container *ngIf="location; else loading">
   <div class="container my-5">
+    <div class="row gx-4">
 
-    <!-- CAROUSEL -->
-    <div *ngIf="location.imagePaths?.length"
-         id="locationCarousel"
-         class="carousel slide mb-4"
-         data-bs-ride="carousel">
-
-      <div class="carousel-indicators">
-        <button *ngFor="let img of location.imagePaths; let i = index"
+      <!-- CAROUSEL IMAGINI -->
+      <div *ngIf="location.imagePaths?.length"
+           id="locationCarousel"
+           class="carousel slide mb-4"
+           data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button *ngFor="let img of location.imagePaths; let i = index"
+                  type="button"
+                  data-bs-target="#locationCarousel"
+                  [attr.data-bs-slide-to]="i"
+                  [class.active]="i === 0"
+                  aria-current="true">
+          </button>
+        </div>
+        <div class="carousel-inner rounded shadow-sm">
+          <div *ngFor="let img of location.imagePaths; let i = index"
+               class="carousel-item"
+               [class.active]="i === 0">
+            <img [src]="getImageUrl(img)"
+                 class="d-block w-100 carousel-img"
+                 [alt]="location.name"
+                 (click)="openLightbox(i)">
+          </div>
+        </div>
+        <button class="carousel-control-prev"
                 type="button"
                 data-bs-target="#locationCarousel"
-                [attr.data-bs-slide-to]="i"
-                [class.active]="i === 0"
-                aria-current="true">
+                data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next"
+                type="button"
+                data-bs-target="#locationCarousel"
+                data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
         </button>
       </div>
 
-      <div class="carousel-inner rounded shadow-sm">
-        <div *ngFor="let img of location.imagePaths; let i = index"
-             class="carousel-item"
-             [class.active]="i === 0">
-          <img [src]="getImageUrl(img)"
-               class="d-block w-100 carousel-img"
-               [alt]="location.name"
-               (click)="openLightbox(i)">
-        </div>
-      </div>
-
-      <button class="carousel-control-prev"
-              type="button"
-              data-bs-target="#locationCarousel"
-              data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </button>
-      <button class="carousel-control-next"
-              type="button"
-              data-bs-target="#locationCarousel"
-              data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </button>
-    </div>
-
-    <!-- DETALII LATERALE -->
-    <div class="row gx-4">
+      <!-- STÂNGA: DETALII LOKAȚIE -->
       <div class="col-lg-8">
         <h1 class="mb-1">{{ location.name }}</h1>
         <p class="text-muted">{{ location.address }}</p>
@@ -83,10 +80,12 @@
         </ul>
       </div>
 
+      <!-- DREAPTA: CARD REZERVAȚIE + SECȚIUNE RECENZII -->
       <div class="col-lg-4">
+        <!-- Card Detalii rezervatie -->
         <div class="card shadow-sm mb-4">
           <div class="card-body">
-            <h5 class="card-title">Detalii rezervație</h5>
+            <h5 class="card-title">Detalii rezervatie</h5>
             <p><strong>Preț:</strong> {{ location.pricePerPerson }} lei/pers</p>
             <p><strong>Max persoane:</strong> {{ location.maxPersons }}</p>
             <p *ngIf="location.numberOfStands">
@@ -99,9 +98,12 @@
                 {{ location.equipmentRental ? 'Disponibil' : 'Indisponibil' }}
               </span>
             </p>
-            <button class="btn btn-primary w-100">Rezervă acum</button>
+            <button class="btn btn-primary w-100 mb-0">Rezervă acum</button>
           </div>
         </div>
+
+        <!-- Componenta unică de recenzii -->
+        <app-review-list [locationId]="location.id"></app-review-list>
       </div>
     </div>
   </div>
@@ -116,20 +118,12 @@
 
 <app-footer></app-footer>
 
-<!-- LIGHTBOX OVERLAY CU NAVIGAȚIE ȘI ÎNCHIDERE -->
+<!-- LIGHTBOX OVERLAY -->
 <div class="lightbox-overlay" *ngIf="lightboxOpen" (click)="closeLightbox()">
-  <!-- conținutul lightbox-ului nu aruncă click-ul înapoi -->
   <div class="lightbox-content" (click)="$event.stopPropagation()">
-    <!-- Close -->
     <button class="close-btn" (click)="closeLightbox()">×</button>
-
-    <!-- Prev -->
     <button class="lightbox-nav prev" (click)="prevImage($event)">‹</button>
-
-    <!-- Imagine -->
     <img class="lightbox-img" [src]="lightboxUrl" alt="Preview imagine" />
-
-    <!-- Next -->
     <button class="lightbox-nav next" (click)="nextImage($event)">›</button>
   </div>
 </div>

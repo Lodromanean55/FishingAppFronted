@@ -1,0 +1,20 @@
+.review-form .input-group {
+  width: 100%;
+}
+
+/* Redimensionăm select-ul */
+.review-form .form-select {
+  max-width: 100px;
+}
+
+/* Fără bordură între câmpuri */
+.review-form .form-control {
+  border-left: none;
+  border-right: none;
+}
+
+/* Butonul de trimis: colțuri rotunjite doar pe stânga */
+.review-form .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

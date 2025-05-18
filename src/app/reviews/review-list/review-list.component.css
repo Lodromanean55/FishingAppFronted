@@ -1,0 +1,25 @@
+.review-card {
+  margin-bottom: 1.5rem;
+}
+
+/* Header */
+.review-card .card-header {
+  background-color: #fff;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Lista de recenzii */
+.review-card .list-group-item {
+  padding: 1rem;
+  border: none;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.review-card .list-group-item:last-child {
+  border-bottom: none;
+}
+
+/* Stele */
+.review-card .rating {
+  font-size: 1.2rem;
+}
