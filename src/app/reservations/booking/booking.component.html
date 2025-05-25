@@ -1,0 +1,68 @@
+<div class="d-flex flex-column min-vh-100">
+  <app-header></app-header>
+
+  <div class="container flex-grow-1 my-5">
+    <h2 class="mb-4 text-primary">
+      <i class="bi bi-calendar2-event me-1"></i>
+      Rezervă acum
+    </h2>
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="bg-white p-4 shadow rounded mx-auto"
+    >
+      <!-- Data rezervării -->
+      <div class="mb-3">
+        <label for="date" class="form-label">Data rezervării</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-calendar2"></i>
+          </span>
+          <input
+            id="date"
+            type="date"
+            class="form-control"
+            formControlName="date"
+          />
+        </div>
+        <div
+          *ngIf="submitted && form.get('date')?.invalid"
+          class="text-danger small mt-1"
+        >
+          Alege o dată validă.
+        </div>
+      </div>
+
+      <!-- Număr de persoane -->
+      <div class="mb-3">
+        <label for="persons" class="form-label">Număr de persoane</label>
+        <input
+          id="persons"
+          type="number"
+          formControlName="persons"
+          class="form-control"
+          min="1"
+        />
+        <div
+          *ngIf="submitted && form.get('persons')?.invalid"
+          class="text-danger small mt-1"
+        >
+          Introdu un număr valid (≥1).
+        </div>
+      </div>
+
+      <!-- Eroare generală -->
+      <div *ngIf="errorMsg" class="alert alert-danger">
+        {{ errorMsg }}
+      </div>
+
+      <!-- Buton -->
+      <button type="submit" class="btn btn-primary w-100">
+        Confirmă rezervarea
+      </button>
+    </form>
+  </div>
+
+  <app-footer></app-footer>
+</div>

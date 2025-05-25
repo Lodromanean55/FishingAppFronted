@@ -1,0 +1,17 @@
+.reserv-card {
+  width: 100%;
+  max-width: 600px;
+  margin: 0.5rem;
+}
+.reserv-card img {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+}
+
+/* două pe rând pe ecrane mari */
+@media (min-width: 992px) {
+  .reserv-card {
+    width: calc(50% - 1rem);
+  }
+}

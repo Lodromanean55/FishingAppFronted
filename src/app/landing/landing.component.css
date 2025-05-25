@@ -1,0 +1,55 @@
+/* src/app/landing/landing.component.css */
+
+/* Asigură-te că bootstrap.css e importat global */
+
+/* Hero */
+.hero {
+  position: relative;
+  height: 100vh;
+  background: url('/assets/images/man-fishing-lake.jpg') center/cover no-repeat;
+}
+.hero .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Navbar transparent */
+.navbar {
+  background: transparent !important;
+}
+.z-top {
+  z-index: 10;
+}
+
+/* Feature icons */
+.feature-icon {
+  font-size: 3rem;
+  color: #0d6efd;
+}
+
+/* How-it-works steps */
+.step {
+  width: 60px;
+  height: 60px;
+  background: #0d6efd;
+  color: #fff;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer */
+footer {
+  margin-top: 2rem;
+}
+footer .social-icons i {
+  font-size: 1.25rem;
+}

@@ -1,0 +1,94 @@
+<!-- src/app/landing/landing.component.html -->
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-absolute w-100 z-top">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <img src="assets/images/fishinglogin.png" height="40" alt="FishingApp Logo" />
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="#features">Caracteristici</a></li>
+        <li class="nav-item"><a class="nav-link" href="#how">Cum funcționează</a></li>
+      </ul>
+      <div class="d-flex">
+        <button class="btn btn-outline-light me-2" (click)="goLogin()">Login</button>
+        <button class="btn btn-light" (click)="goRegister()">Înregistrează-te</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero d-flex align-items-center text-white">
+  <div class="overlay"></div>
+  <div class="container text-center py-5">
+    <h1 class="display-3 fw-bold">Experiențe de pescuit unice</h1>
+    <p class="lead mb-4">Descoperă și rezervă cele mai spectaculoase locații de pescuit private din România.</p>
+    <button class="btn btn-lg btn-primary" (click)="goDiscover()">Începe aventura</button>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section id="features" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">De ce FishingApp?</h2>
+    <div class="row g-4">
+      <div class="col-md-4 text-center">
+        <i class="bi bi-clock-history feature-icon mb-3"></i>
+        <h5>Rezervări rapide</h5>
+        <p>În câteva click-uri îți asiguri locul la cea mai bună pescărie.</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <i class="bi bi-geo-alt feature-icon mb-3"></i>
+        <h5>Locații exclusive</h5>
+        <p>Acces la rezervații private, de neatins pentru publicul larg.</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <i class="bi bi-star-fill feature-icon mb-3"></i>
+        <h5>Recenzii autentice</h5>
+        <p>Feedback real de la pasionați care și-au explorat deja norocul.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS SECTION -->
+<section id="how" class="bg-light py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Cum funcționează?</h2>
+    <div class="row g-4">
+      <div class="col-md-4 text-center">
+        <div class="step mb-3">1</div>
+        <h6>Alege o locație</h6>
+        <p>Răsfoiește catalogul nostru și găsește-ți următoarea destinație de vis.</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="step mb-3">2</div>
+        <h6>Rezervă online</h6>
+        <p>Completează detaliile și confirmă rezervarea instant.</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="step mb-3">3</div>
+        <h6>Bucură-te de pescuit</h6>
+        <p>Vino la locație, relaxează-te și prinde-ți trofeul!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white py-4">
+  <div class="container text-center">
+    <img src="assets/images/fishinglogin.png" height="30" alt="FishingApp Logo" class="mb-3" />
+    <p>© 2025 FishingApp. Toate drepturile rezervate.</p>
+    <div class="social-icons">
+      <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+      <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+      <a href="#" class="text-white"><i class="bi bi-youtube"></i></a>
+    </div>
+  </div>
+</footer>
