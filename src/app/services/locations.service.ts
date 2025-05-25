@@ -28,6 +28,9 @@ export class LocationsService {
   update(id: number, payload: FishingLocationRequestDTO): Observable<FishingLocationResponseDTO> {
     return this.http.put<FishingLocationResponseDTO>(`${this.baseUrl}/${id}`, payload);
   }
+  getMyLocations(): Observable<FishingLocationResponseDTO[]> {
+    return this.http.get<FishingLocationResponseDTO[]>(`${environment.apiUrl}/locations`);
+  }
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);

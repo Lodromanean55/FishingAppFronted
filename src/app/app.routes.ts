@@ -1,33 +1,51 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
-import { LoginComponent }           from './login/login.component';
-import { RegisterComponent }        from './register/register.component';
-import { HomeComponent }            from './home/home.component';
-import { AuthGuard }                from './guards/auth.guard';
 
-import { LocationDetailComponent }  from './locations/location-detail/location-detail.component';
-import { LocationFormComponent }    from './locations/location-form/location-form.component';
+import { LandingComponent }            from './landing/landing.component';
+import { LoginComponent }              from './login/login.component';
+import { RegisterComponent }           from './register/register.component';
+import { HomeComponent }               from './home/home.component';
+import { AuthGuard }                   from './guards/auth.guard';
+import { LandingGuard }                from './guards/landing.guard';
+
+import { LocationDetailComponent }     from './locations/location-detail/location-detail.component';
+import { LocationFormComponent }       from './locations/location-form/location-form.component';
+
+import { BookingComponent }            from './reservations/booking/booking.component';
+import { MyReservationsComponent }     from './reservations/my-reservations/my-reservations.component';
+import { OwnerReservationsComponent }  from './reservations/owner-reservations/owner-reservations.component';
 
 export const routes: Routes = [
-  // 1) rădăcina atunci când eşti logat arată HomeComponent
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  // 1) Landing page – doar pentru neautentificați
+  { path: '',        component: LandingComponent,           canActivate: [LandingGuard], pathMatch: 'full' },
 
-  // 2) login şi register rămân publice
+  // 2) Login și Register – publice
   { path: 'login',    component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  // 3) formular de creare locație
-  { path: 'locations/new', component: LocationFormComponent, canActivate: [AuthGuard] },
+  // 3) Zona protejată – necesită autentificare
+  {
+    path: '',
+    canActivate: [AuthGuard],
+    children: [
+      // 3.1) Home după login
+      { path: 'home', component: HomeComponent },
 
-  // 4) editare locație
-  { path: 'locations/:id/edit', component: LocationFormComponent, canActivate: [AuthGuard] },
+      // 3.2) redirect intern de la '' la /home
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
 
-  // 5) pagina de detaliu a unei locații
-  { path: 'locations/:id', component: LocationDetailComponent, canActivate: [AuthGuard] },
+      // 3.3) CRUD locații
+      { path: 'locations/new',      component: LocationFormComponent },
+      { path: 'locations/:id/edit', component: LocationFormComponent },
+      { path: 'locations/:id',      component: LocationDetailComponent },
 
-  // 6) pentru cine tastează /home redirecționează la /
-  { path: 'home', redirectTo: '', pathMatch: 'full' },
+      // 3.4) Booking & Rezervări
+      { path: 'locations/:id/book',    component: BookingComponent },
+      { path: 'reservations/me',       component: MyReservationsComponent },
+      { path: 'reservations/location', component: OwnerReservationsComponent },
+    ]
+  },
 
-  // 7) orice altceva -> acasă (care e protejat de guard)
+  // 4) Tot ce nu se potrivește – redirect la landing
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

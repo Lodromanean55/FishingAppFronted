@@ -98,7 +98,13 @@
                 {{ location.equipmentRental ? 'Disponibil' : 'Indisponibil' }}
               </span>
             </p>
-            <button class="btn btn-primary w-100 mb-0">Rezervă acum</button>
+            <!-- Link pentru rezervare -->
+            <a
+              [routerLink]="['/locations', location.id, 'book']"
+              class="btn btn-primary w-100 mb-0"
+            >
+              Rezervă acum
+            </a>
           </div>
         </div>
 

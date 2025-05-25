@@ -4,6 +4,7 @@ import {
   HostListener
 } from '@angular/core';
 import { CommonModule }               from '@angular/common';
+import { RouterModule }               from '@angular/router';
 import { ActivatedRoute }             from '@angular/router';
 import { LocationsService }           from '../../services/locations.service';
 import { FishingLocationResponseDTO } from '../../models/fishing-location-response.dto';
@@ -17,6 +18,7 @@ import { ReviewListComponent }        from '../../reviews/review-list/review-lis
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,         // ← ca să funcționeze [routerLink]
     HeaderComponent,
     FooterComponent,
     ReviewListComponent

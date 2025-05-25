@@ -14,6 +14,7 @@ body {
   min-height: 100vh;     /* ocupă tot ecranul chiar dacă conținutul e puțin */
   margin: 0;             /* elimină spațiul implicit */
 }
+
 :root {
   --primary: #1e88e5;
   --primary-dark: #1565c0;
@@ -27,3 +28,14 @@ body {
   background-color: var(--secondary);
 }
 
+/* ===== Pentru sticky footer ===== */
+
+/* permite app-root să se extindă pe tot spațiul vertical disponibil */
+app-root {
+  flex: 1 1 auto;
+}
+
+/* împinge footer-ul în jos */
+app-footer {
+  margin-top: auto;
+}
