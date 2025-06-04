@@ -110,6 +110,23 @@
 
         <!-- Componenta unică de recenzii -->
         <app-review-list [locationId]="location.id"></app-review-list>
+
+        <!-- BUTOANELE „Modifică” ȘI „Șterge” (doar dacă ești owner) -->
+        <div class="mt-4" *ngIf="isOwner()">
+          <button
+            class="btn btn-warning me-2"
+            (click)="onEdit()"
+          >
+            <i class="bi bi-pencil-square"></i> Modifică locație
+          </button>
+          <button
+            class="btn btn-danger"
+            (click)="onDelete()"
+          >
+            <i class="bi bi-trash"></i> Șterge locație
+          </button>
+        </div>
+        <!-- === Sfârșit butoane update/delete === -->
       </div>
     </div>
   </div>

@@ -22,4 +22,8 @@ export interface FishingLocationResponseDTO {
 
   createdAt: string;
   updatedAt: string | null;
+
+  /** PENTRU UPDATE/DELETE DOAR DE CĂTRE PROPRIETAR */
+  ownerId: number;           // ← ADĂUGAT
+  ownerUsername: string;     // ← ADĂUGAT
 }

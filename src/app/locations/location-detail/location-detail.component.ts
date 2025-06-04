@@ -4,7 +4,7 @@ import {
   HostListener
 } from '@angular/core';
 import { CommonModule }               from '@angular/common';
-import { RouterModule }               from '@angular/router';
+import { RouterModule, Router }       from '@angular/router';              // ← ADĂUGAT RouterModule și Router
 import { ActivatedRoute }             from '@angular/router';
 import { LocationsService }           from '../../services/locations.service';
 import { FishingLocationResponseDTO } from '../../models/fishing-location-response.dto';
@@ -12,13 +12,14 @@ import { HeaderComponent }            from '../../shared/header/header.component
 import { FooterComponent }            from '../../shared/footer/footer.component';
 import { environment }                from '../../../environments/environment';
 import { ReviewListComponent }        from '../../reviews/review-list/review-list.component';
+import { AuthService }                from '../../services/auth.service';   // ← ADĂUGAT AuthService
 
 @Component({
   selector: 'app-location-detail',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,         // ← ca să funcționeze [routerLink]
+    RouterModule,         // ← deja importat
     HeaderComponent,
     FooterComponent,
     ReviewListComponent
@@ -36,7 +37,9 @@ export class LocationDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private locationsService: LocationsService
+    private locationsService: LocationsService,
+    private authService: AuthService,  // ← ADĂUGAT
+    private router: Router             // ← ADĂUGAT
   ) {}
 
   ngOnInit(): void {
@@ -93,5 +96,34 @@ export class LocationDetailComponent implements OnInit {
   @HostListener('document:keydown.escape')
   onEsc(): void {
     if (this.lightboxOpen) this.closeLightbox();
+  }
+
+  /** Metodă care returnează true dacă utilizatorul curent este owner */
+  isOwner(): boolean {
+    if (!this.location) return false;
+    const loggedUser = this.authService.getUsername();  // preluăm username din token
+    return loggedUser === this.location.ownerUsername;
+  }
+
+  /** Navighează la formularul de editare */
+  onEdit(): void {
+    if (!this.location) return;
+    this.router.navigate(['/locations', this.location.id, 'edit']);
+  }
+
+  /** Apelează serviciul de ștergere și redirecționează la homepage */
+  onDelete(): void {
+    if (!this.location) return;
+    if (!confirm('Ești sigur că vrei să ștergi această locație?')) return;
+
+    this.locationsService.delete(this.location.id).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: err => {
+        console.error('Eroare la ștergere:', err);
+        alert('Nu s-a putut șterge locația.');
+      }
+    });
   }
 }
